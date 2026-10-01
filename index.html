@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Minha Mourinha ❤️️</title>
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #fbcfe8 0%, #e9d5ff 50%, #f3e8ff 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Inicialmente sem rolagem para o envelope ficar no centro */
+            transition: all 0.5s ease;
+        }
+
+        body.scrollable {
+            overflow-y: auto;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        #envelope-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            z-index: 10;
+        }
+
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background-color: #d8b4fe;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope:hover {
+            transform: translateY(-5px);
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 160px solid #c084fc;
+            border-right: 160px solid #c084fc;
+            border-top: 110px solid #e879f9;
+            border-bottom: 110px solid transparent;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            z-index: 2;
+        }
+
+        .envelope-text {
+            position: relative;
+            z-index: 3;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 5px;
+            font-family: 'Caveat', cursive;
+            font-size: 26px;
+            color: #86198f;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .hint {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #86198f;
+            background: rgba(255,255,255,0.7);
+            padding: 8px 20px;
+            border-radius: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: scale(0.9);
+            pointer-events: none;
+        }
+
+        #letter-container {
+            display: none;
+            width: 100%;
+            max-width: 650px;
+            background-color: #fffaf0;
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+           
+            /* Linhas do caderno roxas */
+            background-image: repeating-linear-gradient(transparent, transparent 31px, #c084fc 31px, #c084fc 32px);
+            background-position: 0 40px;
+           
+            /* Margem esquerda do caderno */
+            border-left: 2px solid #f472b6;
+            margin-left: 10px;
+        }
+
+        .letter-content {
+            padding: 40px 30px 60px 40px;
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+            line-height: 32px; /* Importante para alinhar com as linhas do background (32px de espaçamento) */
+            color: #374151;
+        }
+
+        .letter-content p {
+            margin-bottom: 32px;
+        }
+
+        .photo {
+            display: block;
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 0 auto 32px auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transform: rotate(-2deg);
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .acrostic {
+            color: #be185d;
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        .bold-text {
+            font-weight: 700;
+            color: #9d174d;
+        }
+
+        @media (max-width: 600px) {
+            .letter-content {
+                padding: 30px 20px 40px 25px;
+                font-size: 22px;
+            }
+            .acrostic {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="envelope-container" onclick="openLetter()">
+        <div class="envelope">
+            <div class="envelope-text">
+                De: Efraim<br>
+                Para: Mourinha
+            </div>
+        </div>
+        <div class="hint">Clique para abrir a surpresa 💖</div>
+    </div>
+
+    <div id="letter-container">
+        <div class="letter-content">
+            <!-- Imagem solicitada (fallback caso a img01.png não seja encontrada logo de cara) -->
+            <img src="img01.png" onerror="this.src='https://placehold.co/600x400/fbcfe8/be185d?text=Nossa+Foto+Linda'" alt="Nossa Foto" class="photo">
+           
+            as vezes devido a correria do dia a dia eu acabo falhando em só fazer uma surpresa em datas comemorativas... Buuuuttttttttttttttttttttttttt, como cê mesma fala, a todo instante ocê merece receber uma declaração minha falando do quanto eu amooo vc, do quanto vc é maravilhosa, perfeita, uma deusa greegaaa e a mulher da minha vida!! Quando penso em seu nome, 6 características incríveis suas me vem em mente:<br><br>
+
+            <span class="acrostic">I</span><span class="bold-text">ntegra</span> - Você é a definição de verdade e caráter. Sua honestidade e transparência me dão a certeza e a paz de estar ao lado de alguém em quem confio de olhos fechados.<br><br>
+           
+            <span class="acrostic">N</span><span class="bold-text">atural</span> - Sua beleza e essência fluem naturalmente (e não to falando das essências de rosas kkkkkkk). Você não precisa de máscaras para encantar; basta ser exatamente quem você é para deixar tudo ao redor mais bonito e perfeitoo.<br><br>
+           
+            <span class="acrostic">G</span><span class="bold-text">igante de coração</span> - O seu amor não tem tamanho. A forma como você acolhe, cuida e se importa com quem ama mostra a grandeza do seu coração, meu amor!<br><br>
+           
+            <span class="acrostic">R</span><span class="bold-text">ara</span> - Em um mundo cheio de gente, mais de 8 bilhões de pessoas, ter você é encontrar um tesouro único (obs: por ser único, é bem difícil, mas bote difícil, de achar). Não existe ninguém no planeta com o seu brilho e a sua essência.<br><br>
+           
+            <span class="acrostic">I</span><span class="bold-text">nspiradora</span> - Estar ao seu lado me faz querer ser um homem melhor a cada dia. Você me inspira na forma de viver, de amar e de encarar o mundo, minha vida.<br><br>
+           
+            <span class="acrostic">D</span><span class="bold-text">ivina</span> - Como eu mesmo sempre falo: vc é uma verdadeira deusa grega! Uma dádiva na minha vida que veio para mostrar o que é o amor de verdade.<br><br>
+
+            Completando cada uma dessas letras, sai o nome da mulher que domina os meus pensamentos e o meu coração: <span class="acrostic" style="font-size: 28px;">INGRID</span>, minha Mourinha, o meu amor pra vida toda, te amooo! Eu te amooo demaaiiss, minha mulher! Amo vc, minha Mourinha!
+        </div>
+    </div>
+
+    <!-- Div oculta para a música -->
+    <div id="music-player" style="display: none;"></div>
+
+    <script>
+        let isOpened = false;
+
+        function openLetter() {
+            if (isOpened) return;
+            isOpened = true;
+
+            const envelope = document.getElementById('envelope-container');
+            const letter = document.getElementById('letter-container');
+            const musicContainer = document.getElementById('music-player');
+
+            // 1. Ocultar envelope gradualmente
+            envelope.classList.add('fade-out');
+
+            setTimeout(() => {
+                // 2. Remover envelope do layout
+                envelope.style.display = 'none';
+
+                // 3. Preparar o layout da carta e permitir scroll no body
+                document.body.classList.add('scrollable');
+                letter.style.display = 'block';
+
+                // 4. Mostrar a carta com fade in e slide up
+                setTimeout(() => {
+                    letter.style.opacity = '1';
+                    letter.style.transform = 'translateY(0)';
+                }, 50);
+
+                // 5. Inserir e tocar a música em autoplay
+                const videoId = 'kPa7bsKwL-c';
+                musicContainer.innerHTML = `
+                    <iframe
+                        width="1"
+                        height="1"
+                        src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&controls=0"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                `;
+            }, 600); // Tempo igual à transição CSS do envelope
+        }
+    </script>
+</body>
+</html>
